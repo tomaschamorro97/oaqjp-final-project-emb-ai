@@ -1,21 +1,23 @@
+"""Module providing a function to detect emotions within a text."""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
-#Initiate the flask app : TODO
 app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def sent_analyzer():
+    ''' This function detects emotions within a text'''
     text_to_analyze = request.args.get("textToAnalyze")
     emotions = emotion_detector(text_to_analyze)
 
     if emotions is None:
-        return "Invalid input! Try again"
+        return "Invalid text! Please try again!"
 
     # Return a formatted string with the sentiment label and score
     return f"""For the given statement, the system response is 'anger': {emotions['anger']},
-          'disgust': {emotions['disgust']},'fear': {emotions['fear']}, 'joy': {emotions['joy']} and
-          'sadness': {emotions['sadness']}. The dominant emotion is {emotions['dominant_emotion']}."""
+          'disgust': {emotions['disgust']},'fear': {emotions['fear']},
+          'joy': {emotions['joy']} and'sadness': {emotions['sadness']}.
+          The dominant emotion is {emotions['dominant_emotion']}."""
 
 
 
